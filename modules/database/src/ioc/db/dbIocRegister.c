@@ -71,57 +71,97 @@ static void dbLoadRecordsCallFunc(const iocshArgBuf *args)
 /* dbb */
 static const iocshArg dbbArg0 = { "record name",iocshArgStringRecord};
 static const iocshArg * const dbbArgs[1] = {&dbbArg0};
-static const iocshFuncDef dbbFuncDef = {"dbb",1,dbbArgs,
-                                        "Add breakpoint to a lock set.\n"};
+static const iocshFuncDef dbbFuncDef = {
+    "dbb",
+    1,
+    dbbArgs,
+    "Set Breakpoint\n"
+    "This command spawns one breakpoint continuation task per lockset, in which further record execution is run\n"
+};
 static void dbbCallFunc(const iocshArgBuf *args) { dbb(args[0].sval);}
 
 /* dbd */
 static const iocshArg dbdArg0 = { "record name",iocshArgStringRecord};
 static const iocshArg * const dbdArgs[1] = {&dbdArg0};
-static const iocshFuncDef dbdFuncDef = {"dbd",1,dbdArgs,
-                                        "Remove breakpoint from a record.\n"};
+static const iocshFuncDef dbdFuncDef = {
+    "dbd",
+    1,
+    dbdArgs,
+    "Remove breakpoint from a record.\n"
+};
 static void dbdCallFunc(const iocshArgBuf *args) { dbd(args[0].sval);}
 
 /* dbc */
 static const iocshArg dbcArg0 = { "record name",iocshArgStringRecord};
 static const iocshArg * const dbcArgs[1] = {&dbcArg0};
-static const iocshFuncDef dbcFuncDef = {"dbc",1,dbcArgs,
-                                        "Continue processing in a lock set.\n"};
+static const iocshFuncDef dbcFuncDef = {
+    "dbc",
+    1,
+    dbcArgs,
+    "Continue processing in a lockset until next breakpoint is found.\n"
+};
 static void dbcCallFunc(const iocshArgBuf *args) { dbc(args[0].sval);}
 
 /* dbs */
 static const iocshArg dbsArg0 = { "record name",iocshArgStringRecord};
 static const iocshArg * const dbsArgs[1] = {&dbsArg0};
-static const iocshFuncDef dbsFuncDef = {"dbs",1,dbsArgs,
-                                        "Step through record processing.\n"};
+static const iocshFuncDef dbsFuncDef = {
+    "dbs",
+    1,
+    dbsArgs,
+    "Step through record processing within a lockset.\n"
+    "If called without an argument, automatically steps starting with the last detected breakpoint.\n"
+};
 static void dbsCallFunc(const iocshArgBuf *args) { dbs(args[0].sval);}
 
 /* dbstat */
-static const iocshFuncDef dbstatFuncDef = {"dbstat",0,0,
-                                           "print list of stopped records, and breakpoints set in locksets.\n"};
+static const iocshFuncDef dbstatFuncDef = {
+    "dbstat",
+    0,
+    0,
+    "Print list of suspended records, and breakpoints set in locksets.\n"};
 static void dbstatCallFunc(const iocshArgBuf *args) { dbstat();}
 
 /* dbp */
 static const iocshArg dbpArg0 = { "record name",iocshArgStringRecord};
 static const iocshArg dbpArg1 = { "interest level",iocshArgInt};
 static const iocshArg * const dbpArgs[2] = {&dbpArg0,&dbpArg1};
-static const iocshFuncDef dbpFuncDef = {"dbp",2,dbpArgs,
-                                        "print stopped record.\n"};
+static const iocshFuncDef dbpFuncDef = {
+    "dbp",
+    2,
+    dbpArgs,
+    "Print Fields of a currently suspended record by a breakpoint.\n"
+    "interest level 0 - Fields of interest to an Application developer and that can be changed as a result of record processing.\n"
+    "               1 - Fields of interest to an Application developer and that do not change during record processing.\n"
+    "               2 - Fields of major interest to a System developer.\n"
+    "               3 - Fields of minor interest to a System developer.\n"
+    "               4 - Internal record fields.\n"
+};
 static void dbpCallFunc(const iocshArgBuf *args)
 { dbp(args[0].sval,args[1].ival);}
 
 /* dbap */
 static const iocshArg dbapArg0 = { "record name",iocshArgStringRecord};
 static const iocshArg * const dbapArgs[1] = {&dbapArg0};
-static const iocshFuncDef dbapFuncDef = {"dbap",1,dbapArgs,
-                                         "toggle printing after processing a certain record.\n"};
+static const iocshFuncDef dbapFuncDef = {
+    "dbap",
+    1,
+    dbapArgs,
+    "Auto Print.\n"
+    "Toggle automatic printing after processing a record that has a breakpoint.\n"
+};
 static void dbapCallFunc(const iocshArgBuf *args) { dbap(args[0].sval);}
 
 /* dbsr */
 static const iocshArg dbsrArg0 = { "interest level",iocshArgInt};
 static const iocshArg * const dbsrArgs[1] = {&dbsrArg0};
-static const iocshFuncDef dbsrFuncDef = {"dbsr",1,dbsrArgs,
-                                         "Database Server Report.\n"};
+static const iocshFuncDef dbsrFuncDef = {
+    "dbsr",
+    1,
+    dbsrArgs,
+    "Database Server Report.\n"
+    "Print current status of server and number of connected clients\n"
+};
 static void dbsrCallFunc(const iocshArgBuf *args) { dbsr(args[0].ival);}
 
 /* dbcar */
@@ -173,10 +213,14 @@ static void dbaCallFunc(const iocshArgBuf *args) { dba(args[0].sval);}
 static const iocshArg dblArg0 = { "record type",iocshArgString};
 static const iocshArg dblArg1 = { "fields",iocshArgString};
 static const iocshArg * const dblArgs[] = {&dblArg0,&dblArg1};
-static const iocshFuncDef dblFuncDef = {"dbl",2,dblArgs,
-                                        "Database list.\n"
-                                        "List record/field names.\n"
-                                        "With no arguments, lists all record names.\n"};
+static const iocshFuncDef dblFuncDef = {
+    "dbl",
+    2,
+    dblArgs,
+    "Database list.\n"
+    "List record/field names.\n"
+    "With no arguments, lists all record names.\n"
+};
 static void dblCallFunc(const iocshArgBuf *args)
 {
     dbl(args[0].sval,args[1].sval);
@@ -185,46 +229,78 @@ static void dblCallFunc(const iocshArgBuf *args)
 /* dbnr */
 static const iocshArg dbnrArg0 = { "verbose",iocshArgInt};
 static const iocshArg * const dbnrArgs[1] = {&dbnrArg0};
-static const iocshFuncDef dbnrFuncDef = {"dbnr",1,dbnrArgs,
-                                         "List stats on record alias()s.\n"};
+static const iocshFuncDef dbnrFuncDef = {
+    "dbnr",
+    1,
+    dbnrArgs,
+    "List number of records and aliases by type.\n"
+    "If verbose, list all record types regardless of being instanced"
+};
 static void dbnrCallFunc(const iocshArgBuf *args) { dbnr(args[0].ival);}
 
 /* dbli */
 static const iocshArg dbliArg0 = { "pattern",iocshArgString};
 static const iocshArg * const dbliArgs[1] = {&dbliArg0};
-static const iocshFuncDef dbliFuncDef = {"dbli",1,dbliArgs,
-                                        "List info() tags with names matching pattern.\n"};
+static const iocshFuncDef dbliFuncDef = {
+    "dbli",
+    1,
+    dbliArgs,
+    "List info() tags with names matching pattern.\n\n"
+    "Example: dbli(\"autosave*\")\n"
+};
 static void dbliCallFunc(const iocshArgBuf *args) { dbli(args[0].sval);}
 
 /* dbla */
 static const iocshArg dblaArg0 = { "pattern",iocshArgStringRecord};
 static const iocshArg * const dblaArgs[1] = {&dblaArg0};
-static const iocshFuncDef dblaFuncDef = {"dbla",1,dblaArgs,
-                                         "List record alias()s by alias name pattern.\n"};
+static const iocshFuncDef dblaFuncDef = {
+    "dbla",
+    1,
+    dblaArgs,
+    "List record alias()s by alias name pattern.\n\n"
+    "Example: dbla(\"alia*\")\n"
+};
 static void dblaCallFunc(const iocshArgBuf *args) { dbla(args[0].sval);}
 
 /* dbgrep */
 static const iocshArg dbgrepArg0 = { "pattern",iocshArgStringRecord};
 static const iocshArg * const dbgrepArgs[1] = {&dbgrepArg0};
-static const iocshFuncDef dbgrepFuncDef = {"dbgrep",1,dbgrepArgs,
-                                           "List record names matching pattern.\n"};
+static const iocshFuncDef dbgrepFuncDef = {
+    "dbgrep",
+    1,
+    dbgrepArgs,
+    "List record names matching pattern.\n"
+    "The pattern can contain any characters that are legal in record names as well as \"*\", which matches 0 or more characters.\n\n"
+    "Example: dbgrep(\"*gpibAi*\")\n"
+};
 static void dbgrepCallFunc(const iocshArgBuf *args) { dbgrep(args[0].sval);}
 
 /* dbgf */
 static const iocshArg dbgfArg0 = { "record name",iocshArgStringRecord};
 static const iocshArg * const dbgfArgs[1] = {&dbgfArg0};
-static const iocshFuncDef dbgfFuncDef = {"dbgf",1,dbgfArgs,
-                                         "Database Get Field.\n"
-                                         "Print current value of record field.\n"};
+static const iocshFuncDef dbgfFuncDef = {
+    "dbgf",
+    1,
+    dbgfArgs,
+    "Database Get Field.\n"
+    "Print current value of record field.\n"
+    "If no field name is specified, VAL is assumed.\n\n"
+    "Example: dbgf(\"aitest.VAL\")\n"
+};
 static void dbgfCallFunc(const iocshArgBuf *args) { dbgf(args[0].sval);}
 
 /* dbpf */
 static const iocshArg dbpfArg0 = { "record name",iocshArgStringRecord};
 static const iocshArg dbpfArg1 = { "value",iocshArgString};
 static const iocshArg * const dbpfArgs[2] = {&dbpfArg0,&dbpfArg1};
-static const iocshFuncDef dbpfFuncDef = {"dbpf",2,dbpfArgs,
-                                         "Database Put Field.\n"
-                                         "Change value of record field.\n"};
+static const iocshFuncDef dbpfFuncDef = {
+    "dbpf",
+    2,
+    dbpfArgs,
+    "Database Put Field.\n"
+    "Change value of record field and read it back with dbgf.\n"
+    "If no field is specified, VAL is assumed\n"
+};
 static void dbpfCallFunc(const iocshArgBuf *args)
 { dbpf(args[0].sval,args[1].sval);}
 
@@ -232,33 +308,60 @@ static void dbpfCallFunc(const iocshArgBuf *args)
 static const iocshArg dbprArg0 = { "record name",iocshArgStringRecord};
 static const iocshArg dbprArg1 = { "interest level",iocshArgInt};
 static const iocshArg * const dbprArgs[2] = {&dbprArg0,&dbprArg1};
-static const iocshFuncDef dbprFuncDef = {"dbpr",2,dbprArgs,
-                                         "Database Print Record.\n"
-                                         "Print values of record fields.\n"};
+static const iocshFuncDef dbprFuncDef = {
+    "dbpr",
+    2,
+    dbprArgs,
+    "Database Print Record.\n"
+    "Print values of record fields for given interest level.\n"
+    "interest level 0 - Fields of interest to an Application developer and that can be changed as a result of record processing.\n"
+    "               1 - Fields of interest to an Application developer and that do not change during record processing.\n"
+    "               2 - Fields of major interest to a System developer.\n"
+    "               3 - Fields of minor interest to a System developer.\n"
+    "               4 - Internal record fields.\n\n"
+    "Example: dbpr(\"aitest\", 3)"
+};
 static void dbprCallFunc(const iocshArgBuf *args)
 { dbpr(args[0].sval,args[1].ival);}
 
 /* dbtr */
 static const iocshArg dbtrArg0 = { "record name",iocshArgStringRecord};
 static const iocshArg * const dbtrArgs[1] = {&dbtrArg0};
-static const iocshFuncDef dbtrFuncDef = {"dbtr",1,dbtrArgs,
-                                         "Process record and then some fields.\n"};
+static const iocshFuncDef dbtrFuncDef = {
+    "dbtr",
+    1,
+    dbtrArgs,
+    "Test Record Processing\n"
+    "Process record and then print fields with dbpr (interest level 3).\n\n"
+    "Example: dbtr(\"aitest\")\n"
+};
 static void dbtrCallFunc(const iocshArgBuf *args) { dbtr(args[0].sval);}
 
 /* dbtgf */
 static const iocshArg dbtgfArg0 = { "record name",iocshArgStringRecord};
 static const iocshArg * const dbtgfArgs[1] = {&dbtgfArg0};
-static const iocshFuncDef dbtgfFuncDef = {"dbtgf",1,dbtgfArgs,
-                                          "Database Test Get Field.\n"
-                                          "Get field with different DBR_* types\n"};
+static const iocshFuncDef dbtgfFuncDef = {
+    "dbtgf",
+    1,
+    dbtgfArgs,
+    "Database Test Get Field.\n"
+    "Get field with all possible DBR_* request types\n\n"
+    "Example: dbtgf(\"aitest.VAL\")\n"
+};
 static void dbtgfCallFunc(const iocshArgBuf *args) { dbtgf(args[0].sval);}
 
 /* dbtpf */
 static const iocshArg dbtpfArg0 = { "record name",iocshArgStringRecord};
 static const iocshArg dbtpfArg1 = { "value",iocshArgString};
 static const iocshArg * const dbtpfArgs[2] = {&dbtpfArg0,&dbtpfArg1};
-static const iocshFuncDef dbtpfFuncDef = {"dbtpf",2,dbtpfArgs,
-                                          "Database Test Put Field.\n"};
+static const iocshFuncDef dbtpfFuncDef = {
+    "dbtpf",
+    2,
+    dbtpfArgs,
+    "Database Test Put Field.\n"
+    "Put field and read back for all possible DBR_* request types\n\n"
+    "Example: dbtpf(\"aitest, 5\")\n"
+};
 static void dbtpfCallFunc(const iocshArgBuf *args)
 { dbtpf(args[0].sval,args[1].sval);}
 
